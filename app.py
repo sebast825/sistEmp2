@@ -53,7 +53,13 @@ def add_contact():
 #siempre que reciba la ruta delete con lo del string le decis que si o si tiene que tener un numero
 @app.route('/delete/<string:id>') 
 def delete_contact(id):
-    return id
+    cur = mysql.connect()
+    cursor = cur.cursor()
+    cursor.execute('DELETE FROM contacts WHERE id = {} '.format(id))
+    cur.commit()
+    flash('contacto removido correctamente')
+    return redirect(url_for('index'))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
