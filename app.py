@@ -1,6 +1,6 @@
 from flask import Flask
 
-from flask import render_template
+from flask import render_template #cuando el usuario hace una poeticion devuelve los templates
 from flaskext.mysql import MySQL 
 
 app= Flask(__name__)
