@@ -1,3 +1,4 @@
+import re
 from flask import Flask,render_template,request
 from flask import render_template #creo que tambien es redirecicon
 from flask import request #nos permite llamar
@@ -61,5 +62,36 @@ def delete_contact(id):
     return redirect(url_for('index'))
 
 
+@app.route('/edit/<string:id>')
+def get_contact(id):
+    cur = mysql.connect()
+    cursor = cur.cursor()
+    cursor.execute('SELECT * FROM contacts WHERE id = {} '.format(id))
+    data = cursor.fetchall()
+    print(data[0]) #sin el indice 0 devuelve una lista dentro de una lista
+    return render_template('empleados/edit.html', contact = data[0])
+
+@app.route('/update/<id>', methods=['POST'])
+def update_contact(id):
+    if request.method=='POST':
+        fullname = request.form['fullname'] 
+        phone = request.form['phone']
+        email = request.form['email']
+       
+        cur = mysql.connect()
+        cursor = cur.cursor()
+        cursor.execute("""
+            UPDATE contacts
+            SET fullname = %s,
+                email = %s,
+                phone = %s
+            WHERE id = %s
+        """, (fullname, email, phone, id))
+        cur.commit()
+
+        flash ('contacto actualizado correctamente')
+        return redirect(url_for('index'))
+    
+   
 if __name__ == "__main__":
     app.run(debug=True)

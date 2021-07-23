@@ -1,3 +1,6 @@
+<!-- permite eredar las caracteristicas del alyout, hay que cerrarlo al final -->
+{% extends 'layout.html' %}
+{% block body%}
 <!-- el choclo de llaves son comandos de jinja -->
 <!-- es necesaria la secret key en el app  -->
 <!-- es para que envie el mensaje flash, se almacena dentro de la variable mensajes -->
@@ -44,3 +47,5 @@
        
     </tbody>
 </table>
+
+{% endblock%}

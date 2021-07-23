@@ -1,0 +1,11 @@
+{% extends 'layout.html'%}
+{% block body%}
+<!-- con el contact.0 le decis que te modifique el que tiene el id que trajiste -->
+<form action="/update/{{contact.0}} " method="POST">
+    <input type="text" name="fullname" value="{{contact.1}} " placeholder="fullname" id="">
+    <input type="text" name="phone" value="{{contact.2}}" placeholder="phone" id="">
+    <input type="text" name="email" value="{{contact.3}}" placeholder="email" id="">
+    <button type="submit"> Save</button>
+</form>
+
+{% endblock %}
