@@ -1,6 +1,46 @@
+<!-- el choclo de llaves son comandos de jinja -->
+<!-- es necesaria la secret key en el app  -->
+<!-- es para que envie el mensaje flash, se almacena dentro de la variable mensajes -->
+{% with mesages = get_flashed_messages() %}
+<!-- si existen mensajes -->
+{% if mesages %}
+{% for mesage in mesages %}
+    <p>{{mesage}} </p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
 <form action="add_contact" method="POST">
     <input type="text" name="fullname" placeholder="fullname" id="">
     <input type="text" name="phone" placeholder="phone" id="">
     <input type="text" name="email" placeholder="email" id="">
     <button type="submit"> Save</button>
 </form>
+
+<table>
+    <thead>
+        <tr>
+            <td>fullname</td>
+            <td>phone</td>
+            <td>correo</td>
+            <td>operations</td>
+        </tr>
+    </thead>
+    <tbody>
+        
+           {% for contact in contacts%}
+           <tr>
+               <!-- con un solo corchete no devuelve el valor dice contact.1 -->
+               <td>{{contact.1}}</td>
+               <td>{{contact.2 }}</td>
+               <td>{{contact.3}}</td>
+               <td>
+                   <a href="/edit/{{contact.0}}">Edit</a>
+                   <a href="/delete/{{contact.0}}"> Delete</a>
+               </td>
+           </tr>
+           {% endfor %}
+
+       
+    </tbody>
+</table>
