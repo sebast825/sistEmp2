@@ -1,11 +1,30 @@
 {% extends 'layout.html'%}
 {% block body%}
 <!-- con el contact.0 le decis que te modifique el que tiene el id que trajiste -->
-<form action="/update/{{contact.0}} " method="POST">
-    <input type="text" name="fullname" value="{{contact.1}} " placeholder="fullname" id="">
-    <input type="text" name="phone" value="{{contact.2}}" placeholder="phone" id="">
-    <input type="text" name="email" value="{{contact.3}}" placeholder="email" id="">
-    <button type="submit"> Save</button>
-</form>
+
+<div class="col-md-4 offset-md-4">
+    <div class="carc card-body">
+        <form action="/update/{{contact.0}} " method="POST">
+            <div class="form-group">
+                <input type="text" name="fullname" value="{{contact.1}} " placeholder="fullname" id="" class="form-control">
+            </div>
+               
+            <div class="form-group">
+                <input type="text" name="phone" value="{{contact.2}}" placeholder="phone" id="" class="form-control">
+            </div>
+                
+            <div class="form-group">
+                <input type="text" name="email" value="{{contact.3}}" placeholder="email" id="" class="form-control">
+            </div>                      
+               
+            <div class="form-group">
+                <button type="submit" class="form-control btn btn-block btn-primary"> Save</button>
+            </div>
+       
+            
+           
+        </form>
+    </div>
+</div>
 
 {% endblock %}

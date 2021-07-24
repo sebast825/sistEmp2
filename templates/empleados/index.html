@@ -1,51 +1,83 @@
 <!-- permite eredar las caracteristicas del alyout, hay que cerrarlo al final -->
 {% extends 'layout.html' %}
 {% block body%}
-<!-- el choclo de llaves son comandos de jinja -->
-<!-- es necesaria la secret key en el app  -->
-<!-- es para que envie el mensaje flash, se almacena dentro de la variable mensajes -->
-{% with mesages = get_flashed_messages() %}
-<!-- si existen mensajes -->
-{% if mesages %}
-{% for mesage in mesages %}
-    <p>{{mesage}} </p>
-{% endfor %}
-{% endif %}
-{% endwith %}
 
-<form action="add_contact" method="POST">
-    <input type="text" name="fullname" placeholder="fullname" id="">
-    <input type="text" name="phone" placeholder="phone" id="">
-    <input type="text" name="email" placeholder="email" id="">
-    <button type="submit"> Save</button>
-</form>
+<div class="row">
+    <div class="col-md-5">
+        <div class="carc card-body">
 
-<table>
-    <thead>
-        <tr>
-            <td>fullname</td>
-            <td>phone</td>
-            <td>correo</td>
-            <td>operations</td>
-        </tr>
-    </thead>
-    <tbody>
+
+                    <!-- el choclo de llaves son comandos de jinja -->
+            <!-- es necesaria la secret key en el app  -->
+            <!-- es para que envie el mensaje flash, se almacena dentro de la variable mensajes -->
+            {% with mesages = get_flashed_messages() %}
+            <!-- si existen mensajes -->
+            {% if mesages %}
+            {% for mesage in mesages %}
+                
+            <div class="alert alert-success" role="alertdialog">
+                <h4 class="alert-heading">{{mesage}} </h4>
+                    
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+
+
+            <form action="add_contact" method="POST">
+                 <div class="form-group">
+                    <input type="text" name="fullname" placeholder="fullname" id="" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="phone" placeholder="phone" id="" class="form-control">
+                </div>
+               
+                <div class="form-group">
+                    <input type="text" name="email" placeholder="email" id="" class="form-control">
+                </div>
+          
+                <div class="form-group">
+                    <button type="submit" class="btn form-control btn-primary btn-block"> Save</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <table class="table table-striped bg-white table-sm">
+            <thead>
+                <tr>
+                    <td>fullname</td>
+                    <td>phone</td>
+                    <td>correo</td>
+                    <td>operations</td>
+                </tr>
+            </thead>
+            <tbody class="">
+                
+                {% for contact in contacts%}
+                <tr>
+                    <!-- con un solo corchete no devuelve el valor dice contact.1 -->
+                    <td>{{contact.1}}</td>
+                    <td>{{contact.2 }}</td>
+                    <td>{{contact.3}}</td>
+                    <td>
+                        <a href="/edit/{{contact.0}}" class="btn btn-secondary">Edit</a>
+                        <a href="/delete/{{contact.0}}" class="btn btn-danger"> Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
         
-           {% for contact in contacts%}
-           <tr>
-               <!-- con un solo corchete no devuelve el valor dice contact.1 -->
-               <td>{{contact.1}}</td>
-               <td>{{contact.2 }}</td>
-               <td>{{contact.3}}</td>
-               <td>
-                   <a href="/edit/{{contact.0}}">Edit</a>
-                   <a href="/delete/{{contact.0}}"> Delete</a>
-               </td>
-           </tr>
-           {% endfor %}
+            
+            </tbody>
+        </table>
+    </div>
 
-       
-    </tbody>
-</table>
+</div>
+
+
+
 
 {% endblock%}
