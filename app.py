@@ -42,7 +42,7 @@ def add_contact():
         _email = request.form['email']
         
         if _fullname=='' or _phone=='' or _email=='':
-            flash('Falta llenar algun dato')
+            flash('Falta llenar algun dato','error')
             return redirect(url_for('index'))
 
         if  len(_fullname)<4 or len(_fullname)>25:
