@@ -41,6 +41,9 @@ def add_contact():
         _phone = request.form['phone']
         _email = request.form['email']
         
+        if _fullname=='' or _phone=='' or _email=='':
+            flash('Falta llenar algun dato')
+            return redirect(url_for('index'))
 
         conn = mysql.connect()
         cursor = conn.cursor()
@@ -77,7 +80,11 @@ def update_contact(id):
         fullname = request.form['fullname'] 
         phone = request.form['phone']
         email = request.form['email']
-       
+
+        # if email.value().indexOf()=='@':
+        #     flash('falta el @')
+        #     return redirect(url_for('index'))
+
         cur = mysql.connect()
         cursor = cur.cursor()
         cursor.execute("""
