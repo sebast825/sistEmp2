@@ -11,10 +11,10 @@ from flaskext.mysql import MySQL
 app= Flask(__name__)
 
 #mysql conection
-app.config['MYSQL_DATABASE_HOST']='localhost'
-app.config['MYSQL_DATABASE_USER']='root'
-app.config['MYSQL_DATABASE_PASSWORD']=''
-app.config['MYSQL_DATABASE_DB']='flaskcontacts'
+app.config['MYSQL_DATABASE_HOST']='biwmg7uycgr3iaunvbxg-mysql.services.clever-cloud.com'
+app.config['MYSQL_DATABASE_USER']='uzkyivgvx6prvvsa'
+app.config['MYSQL_DATABASE_PASSWORD']='DNn2ZUgi2oycdRXAtcOa'
+app.config['MYSQL_DATABASE_DB']='biwmg7uycgr3iaunvbxg'
 mysql= MySQL(app) #conecta pytohn con la base de datos
 
 
