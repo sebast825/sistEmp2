@@ -46,15 +46,15 @@ def add_contact():
             return redirect(url_for('index'))
 
         if  len(_fullname)<4 or len(_fullname)>25:
-            flash('El nombre debe contener entre 4 y 25 caracteres')
+            flash('El nombre debe contener entre 4 y 25 caracteres','error')
             return redirect(url_for('index'))
         
         if any(chr.isdigit() for chr in _phone)!=True:
-            flash('solo podes poner numeros')
+            flash('solo podes poner numeros','error')
             return redirect(url_for('index'))
 
         if not '@' in _email or not'.com' in _email:
-            flash('email invalido')
+            flash('email invalido','error')
             return redirect(url_for('index'))
         
                 
