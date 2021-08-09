@@ -10,15 +10,23 @@
                     <!-- el choclo de llaves son comandos de jinja -->
             <!-- es necesaria la secret key en el app  -->
             <!-- es para que envie el mensaje flash, se almacena dentro de la variable mensajes -->
-            {% with mesages = get_flashed_messages() %}
+             {% with mesages = get_flashed_messages(with_categories=true) %}
             <!-- si existen mensajes -->
             {% if mesages %}
-            {% for mesage in mesages %}
-                
-            <div class="alert alert-success" role="alertdialog">
-                <h4 class="alert-heading">{{mesage}} </h4>
+            <!-- hace falta aclarar la categoria -->
+            {% for category,  mesage in mesages %}
+            
+            {% if category  == 'error' %}
+            <div class="alert alert-danger" role="alertdialog">
+                <h4 class="alert-heading {{error}} ">{{mesage}} </h4>
                     
             </div>
+            {% else %}
+            <div class="alert alert-success" role="alertdialog">
+                <h4 class="alert-heading  ">{{mesage}} </h4>
+                    
+            </div>
+            {% endif %}
             {% endfor %}
             {% endif %}
             {% endwith %}
@@ -76,7 +84,7 @@
     </div>
 
 </div>
-
+<a href="salir">Salir</a>
 
 
 

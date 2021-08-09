@@ -21,8 +21,92 @@ mysql= MySQL(app) #conecta pytohn con la base de datos
 #settings, donde guardar datos para el servidor
 app.secret_key = "mysecretkey" #se esta usando para el mensaje flash x ahora
 
-
+# PRIMERA PARTE PARA LAS CUENTAS
 @app.route('/')
+def login():
+   return render_template('empleados/login.html')
+
+@app.route('/register')
+def register():
+   return render_template('/empleados/register.html')
+
+@app.route('/sincuenta')
+def sincuenta():
+   return render_template('a.html')
+
+@app.route('/salir')
+def salir():
+   return redirect(url_for('login'))
+   
+
+
+
+@app.route('/info', methods=['POST'])
+def info():
+    name = request.form['name']
+    password = request.form['password']
+    
+  
+    if name!='' and password!='':
+
+        nameBase = 'SELECT * FROM register WHERE name= %s ;'
+        con = mysql.connect()
+        cur = con.cursor()
+        cur.execute(nameBase,name)
+        data = cur.fetchall()
+        c= data[0]
+      # if password == resultado:
+        
+        if name==c[1] and password==c[2]:
+            return redirect(url_for('index'))
+      
+    
+    else:
+        flash('datos invalidos','error')
+        return redirect(url_for('login'))
+
+#mirar el sincuenta
+
+  
+
+
+
+@app.route('/nuevousu', methods=['POST'])
+def nuevousu():
+    if request.method == 'POST':       
+      name = request.form['name']
+      password = request.form['password']
+
+      con = mysql.connect()
+      cur = con.cursor()
+      a =  'INSERT INTO register(name,password) VALUES (%s, %s);'
+      b = (name, password)
+      cur.execute(a, b)
+      con.commit() 
+      return redirect(url_for('login'))
+
+@app.route('/deleteusu/<string:id>')
+def deleteusu(id):
+
+   con = mysql.connect()
+   cur = con.cursor() 
+   cur.execute('DELETE FROM register WHERE id = {} '.format(id))
+   con.commit()
+   flash('Cuenta eliminada correctamente')           
+   return redirect(url_for('login'))
+
+
+
+##
+##
+##
+##
+##
+
+
+
+
+@app.route('/index')
 def index():
     cur = mysql.connect()
     cursor = cur.cursor()
@@ -42,7 +126,7 @@ def add_contact():
         _email = request.form['email']
         
         if _fullname=='' or _phone=='' or _email=='':
-            flash('Falta llenar algun dato')
+            flash('Falta llenar algun dato','error')
             return redirect(url_for('index'))
 
         conn = mysql.connect()
