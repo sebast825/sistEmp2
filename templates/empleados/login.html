@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+             {% with mesages = get_flashed_messages(with_categories=true) %}
+             
+            <!-- si existen mensajes -->
+            {% if mesages %}
+            {% for category, mesage in mesages %}
+                
+            {% if category  == 'error' %}
+            <div class="alert alert-danger" role="alertdialog">
+                <h4 class="alert-heading {{error}} ">{{mesage}} </h4>
+                    
+            </div>
+            {% else %}
+            <div class="alert alert-success" role="alertdialog">
+                <h4 class="alert-heading  ">{{mesage}} </h4>
+                    
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+    
+    
+<div class="col-md-4 offset-md-4">
+  <h1>LOgin</h1>
+  <div class="carc card-body">
+    <form action="info" method='POST'>
+    <div class="mb-3">
+
+        <input type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Acount">
+      </div>
+      <div class="mb-3">
+       
+        <input type="text" name="password" class="form-control" id="formGroupExampleInput2" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-secondary">Login</button>
+    </form>
+  </div>
+  <br>
+  <a href="/register">Create acount</a>
+  <br>
+  <a href="/deleteUsuario">Delete acount</a>
+</div>
+   
+    
+    
+{% endblock%}

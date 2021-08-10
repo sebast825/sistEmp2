@@ -1,0 +1,43 @@
+
+{% extends 'layout.html' %}
+{% block body %}
+
+<div class="col-md-4 offset-md-4">
+    {% with mesages = get_flashed_messages(with_categories=true) %}
+    <!-- si existen mensajes -->
+    {% if mesages %}
+    <!-- hace falta aclarar la categoria -->
+    {% for category,  mesage in mesages %}
+
+    {% if category  == 'error' %}
+    <div class="alert alert-danger" role="alertdialog">
+        <h4 class="alert-heading {{error}} ">{{mesage}} </h4>
+            
+    </div>
+    {% else %}
+    <div class="alert alert-success" role="alertdialog">
+        <h4 class="alert-heading  ">{{mesage}} </h4>
+            
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+
+    <h1>Delte User</h1>
+    <div class="carc card-body">
+      <form action="deleteUsu" method='POST'>
+      <div class="mb-3">
+          <label for="formGroupExampleInput" class="form-label">Acount</label>
+          <input type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
+        </div>
+        <div class="mb-3">
+          <label for="formGroupExampleInput2" class="form-label">Password</label>
+          <input type="text" name="password" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
+        </div>
+        <button type="submit" class="btn btn-danger">Delte User</button>
+      </form>
+    </div>
+
+    {% endblock%}

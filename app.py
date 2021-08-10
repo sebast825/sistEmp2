@@ -21,18 +21,141 @@ mysql= MySQL(app) #conecta pytohn con la base de datos
 #settings, donde guardar datos para el servidor
 app.secret_key = "mysecretkey" #se esta usando para el mensaje flash x ahora
 
-
+# PRIMERA PARTE PARA LAS CUENTAS
 @app.route('/')
+def login():
+   return render_template('empleados/login.html')
+
+@app.route('/register')
+def register():
+   return render_template('/empleados/register.html')
+
+@app.route('/deleteUsuario')
+def deleteUsuario():
+   return render_template('/empleados/deleteUsu.html')
+
+@app.route('/salir')
+def salir():
+   return redirect(url_for('login'))
+   
+
+
+
+@app.route('/info', methods=['POST'])
+def info():
+    name = request.form['name']
+    password = request.form['password']
+    
+  
+    if name!='' and password!='':
+        #si no puede tomar losd atos de la base de datos xq pusiste cualquier cosa te da error
+        #con el try te redirige
+        try:
+            nameBase = 'SELECT * FROM register WHERE name= %s ;'
+            con = mysql.connect()
+            cur = con.cursor()
+            cur.execute(nameBase,name)
+            data = cur.fetchall()
+            c= data[0]
+            
+            
+        except:
+            flash('datos invalidos','error')
+            return redirect(url_for('login'))
+        else:        
+            if name==c[1] and password==c[2]:
+                return redirect(url_for('index'))      
+    
+    else:
+        flash('datos invalidos','error')
+        return redirect(url_for('login'))
+
+
+
+@app.route('/nuevousu', methods=['POST'])
+def nuevousu():
+    if request.method == 'POST':       
+        name = request.form['name']
+        password = request.form['password']
+        try:
+            con = mysql.connect()
+            cur = con.cursor()
+            a =  'INSERT INTO register(name,password) VALUES (%s, %s);'
+            b = (name, password)
+            cur.execute(a, b)
+            con.commit() 
+            
+        except:
+            flash('Ya hay un usuario con ese nomrbe','error')
+            return redirect(url_for('register'))
+        else:
+            flash('cuenta creada')
+            return redirect(url_for('login'))
+
+@app.route('/deleteUsu', methods=['POST'])
+def deleteUsu():
+    
+    name = request.form['name']
+    password = request.form['password']
+    
+  
+    if name!='' and password!='':
+        #si no puede tomar losd atos de la base de datos xq pusiste cualquier cosa te da error
+        #con el try te redirige
+        print('atr')
+        try:
+            print('try')
+            con = mysql.connect()
+            cur = con.cursor()
+            cur.execute('SELECT * FROM register WHERE name = %s',name);
+            
+            data = cur.fetchall()
+            c = data[0]
+            
+        except:
+            
+            flash('Invalid Data','error')
+            return redirect(url_for('deleteUsuario'))
+        
+        else:
+            if name==c[1] and password==c[2]:
+                
+                cur.execute('DELETE FROM register WHERE name =%s',name)
+                con.commit()
+                flash('Acount deleted')
+                return redirect(url_for('login'))
+
+    
+    else:
+        flash('Invalid Data','error')
+        
+        return redirect(url_for('login'))
+
+
+
+##
+##
+##
+##
+##
+
+
+
+
+@app.route('/index')
 def index():
     cur = mysql.connect()
     cursor = cur.cursor()
-    cursor.execute('SELECT * FROM contacts')
-    data = cursor.fetchall() #devuelve los datos
+    cursor.execute('SELECT * FROM contacts, register')
+    data = cursor.fetchall()
+    print(data) #devuelve los datos
     
     #redirige y la parte de contacts = data devuelve la info de la base de datos
     #como devuelve una tupla en el index hay que llamar valor por valor
     #para ver la tupla pone print(data), actualizas la pagina y te aparece en terminal
     return render_template('empleados/index.html', contacts = data)
+
+
 
 @app.route('/add_contact', methods=['POST'])
 def add_contact():
@@ -98,9 +221,7 @@ def update_contact(id):
         phone = request.form['phone']
         email = request.form['email']
 
-        # if email.value().indexOf()=='@':
-        #     flash('falta el @')
-        #     return redirect(url_for('index'))
+     
 
         cur = mysql.connect()
         cursor = cur.cursor()
