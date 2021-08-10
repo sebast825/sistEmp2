@@ -30,9 +30,9 @@ def login():
 def register():
    return render_template('/empleados/register.html')
 
-@app.route('/sincuenta')
-def sincuenta():
-   return render_template('a.html')
+@app.route('/deleteUsuario')
+def deleteUsuario():
+   return render_template('/empleados/deleteUsu.html')
 
 @app.route('/salir')
 def salir():
@@ -70,39 +70,66 @@ def info():
         flash('datos invalidos','error')
         return redirect(url_for('login'))
 
-#mirar el sincuenta
-# @app.route('/eliminarusu/<string:id>')
-# def eliminarusu(id):
-#    con = mysql.connect()
-#    cur = con.cursor()
-#    cur.execute('DELETE FROM register WHERE id={} '.format(id))
-  
-
 
 
 @app.route('/nuevousu', methods=['POST'])
 def nuevousu():
     if request.method == 'POST':       
-      name = request.form['name']
-      password = request.form['password']
+        name = request.form['name']
+        password = request.form['password']
+        try:
+            con = mysql.connect()
+            cur = con.cursor()
+            a =  'INSERT INTO register(name,password) VALUES (%s, %s);'
+            b = (name, password)
+            cur.execute(a, b)
+            con.commit() 
+            
+        except:
+            flash('Ya hay un usuario con ese nomrbe','error')
+            return redirect(url_for('register'))
+        else:
+            flash('cuenta creada')
+            return redirect(url_for('login'))
 
-      con = mysql.connect()
-      cur = con.cursor()
-      a =  'INSERT INTO register(name,password) VALUES (%s, %s);'
-      b = (name, password)
-      cur.execute(a, b)
-      con.commit() 
-      return redirect(url_for('login'))
+@app.route('/deleteUsu', methods=['POST'])
+def deleteUsu():
+    
+    name = request.form['name']
+    password = request.form['password']
+    
+  
+    if name!='' and password!='':
+        #si no puede tomar losd atos de la base de datos xq pusiste cualquier cosa te da error
+        #con el try te redirige
+        print('atr')
+        try:
+            print('try')
+            con = mysql.connect()
+            cur = con.cursor()
+            cur.execute('SELECT * FROM register WHERE name = %s',name);
+            
+            data = cur.fetchall()
+            c = data[0]
+            
+        except:
+            
+            flash('Invalid Data','error')
+            return redirect(url_for('deleteUsuario'))
+        
+        else:
+            if name==c[1] and password==c[2]:
+                
+                cur.execute('DELETE FROM register WHERE name =%s',name)
+                con.commit()
+                flash('Acount deleted')
+                return redirect(url_for('login'))
 
-# @app.route('/deleteusu/<string:id>')
-# def deleteusu(id):
-
-#    con = mysql.connect()
-#    cur = con.cursor() 
-#    cur.execute('DELETE FROM register WHERE id = {} '.format(id))
-#    con.commit()
-#    flash('Cuenta eliminada correctamente')           
-#    return redirect(url_for('login'))
+    
+    else:
+        flash('Invalid Data','error')
+        
+        return redirect(url_for('login'))
 
 
 
@@ -119,8 +146,9 @@ def nuevousu():
 def index():
     cur = mysql.connect()
     cursor = cur.cursor()
-    cursor.execute('SELECT * FROM contacts')
-    data = cursor.fetchall() #devuelve los datos
+    cursor.execute('SELECT * FROM contacts, register')
+    data = cursor.fetchall()
+    print(data) #devuelve los datos
     
     #redirige y la parte de contacts = data devuelve la info de la base de datos
     #como devuelve una tupla en el index hay que llamar valor por valor
@@ -176,9 +204,7 @@ def update_contact(id):
         phone = request.form['phone']
         email = request.form['email']
 
-        # if email.value().indexOf()=='@':
-        #     flash('falta el @')
-        #     return redirect(url_for('index'))
+     
 
         cur = mysql.connect()
         cursor = cur.cursor()

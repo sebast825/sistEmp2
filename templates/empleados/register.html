@@ -1,15 +1,37 @@
 {% extends 'layout.html'%}
 
 {% block body %}
+
+{% with mesages = get_flashed_messages(with_categories=true) %}
+<!-- si existen mensajes -->
+{% if mesages %}
+<!-- hace falta aclarar la categoria -->
+{% for category,  mesage in mesages %}
+
+{% if category  == 'error' %}
+<div class="alert alert-danger" role="alertdialog">
+    <h4 class="alert-heading {{error}} ">{{mesage}} </h4>
+        
+</div>
+{% else %}
+<div class="alert alert-success" role="alertdialog">
+    <h4 class="alert-heading  ">{{mesage}} </h4>
+        
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endwith %}
+
 <h1>Register</h1>
  <form action="nuevousu" method="POST">
     <div class="mb-3">
         <label for="formGroupExampleInput" class="form-label">Name</label>
-        <input type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
+        <input type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Acount">
       </div>
       <div class="mb-3">
         <label for="formGroupExampleInput2" class="form-label">Password</label>
-        <input type="password" name="password" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
+        <input type="password" name="password" class="form-control" id="formGroupExampleInput2" placeholder="Password">
       </div>
       <button type="submit" class="btn btn-primary">Primary</button>
     </form> 
