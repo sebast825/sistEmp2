@@ -22,20 +22,27 @@
             {% endif %}
             {% endwith %}
 
-    <h1>LOgin</h1>
+    
+    
+<div class="col-md-4 offset-md-4">
+  <h1>LOgin</h1>
+  <div class="carc card-body">
     <form action="info" method='POST'>
     <div class="mb-3">
-        <label for="formGroupExampleInput" class="form-label">Example label</label>
+        <label for="formGroupExampleInput" class="form-label">Acount</label>
         <input type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
       </div>
       <div class="mb-3">
-        <label for="formGroupExampleInput2" class="form-label">Another label</label>
+        <label for="formGroupExampleInput2" class="form-label">Password</label>
         <input type="text" name="password" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
       </div>
-      <button type="submit" class="btn btn-primary">Primary</button>
+      <button type="submit" class="btn btn-secondary">Login</button>
     </form>
-    <br>
-    <a href="/register">Create acount</a>
+  </div>
+  <br>
+  <a href="/register">Create acount</a>
+</div>
+   
     
     
 {% endblock%}

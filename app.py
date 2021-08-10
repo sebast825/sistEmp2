@@ -48,25 +48,34 @@ def info():
     
   
     if name!='' and password!='':
-
-        nameBase = 'SELECT * FROM register WHERE name= %s ;'
-        con = mysql.connect()
-        cur = con.cursor()
-        cur.execute(nameBase,name)
-        data = cur.fetchall()
-        c= data[0]
-      # if password == resultado:
-        
-        if name==c[1] and password==c[2]:
-            return redirect(url_for('index'))
-      
+        #si no puede tomar losd atos de la base de datos xq pusiste cualquier cosa te da error
+        #con el try te redirige
+        try:
+            nameBase = 'SELECT * FROM register WHERE name= %s ;'
+            con = mysql.connect()
+            cur = con.cursor()
+            cur.execute(nameBase,name)
+            data = cur.fetchall()
+            c= data[0]
+            
+            
+        except:
+            flash('datos invalidos','error')
+            return redirect(url_for('login'))
+        else:        
+            if name==c[1] and password==c[2]:
+                return redirect(url_for('index'))      
     
     else:
         flash('datos invalidos','error')
         return redirect(url_for('login'))
 
 #mirar el sincuenta
-
+# @app.route('/eliminarusu/<string:id>')
+# def eliminarusu(id):
+#    con = mysql.connect()
+#    cur = con.cursor()
+#    cur.execute('DELETE FROM register WHERE id={} '.format(id))
   
 
 
@@ -85,15 +94,15 @@ def nuevousu():
       con.commit() 
       return redirect(url_for('login'))
 
-@app.route('/deleteusu/<string:id>')
-def deleteusu(id):
+# @app.route('/deleteusu/<string:id>')
+# def deleteusu(id):
 
-   con = mysql.connect()
-   cur = con.cursor() 
-   cur.execute('DELETE FROM register WHERE id = {} '.format(id))
-   con.commit()
-   flash('Cuenta eliminada correctamente')           
-   return redirect(url_for('login'))
+#    con = mysql.connect()
+#    cur = con.cursor() 
+#    cur.execute('DELETE FROM register WHERE id = {} '.format(id))
+#    con.commit()
+#    flash('Cuenta eliminada correctamente')           
+#    return redirect(url_for('login'))
 
 
 
@@ -117,6 +126,8 @@ def index():
     #como devuelve una tupla en el index hay que llamar valor por valor
     #para ver la tupla pone print(data), actualizas la pagina y te aparece en terminal
     return render_template('empleados/index.html', contacts = data)
+
+
 
 @app.route('/add_contact', methods=['POST'])
 def add_contact():
