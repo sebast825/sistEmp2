@@ -146,9 +146,8 @@ def deleteUsu():
 def index():
     cur = mysql.connect()
     cursor = cur.cursor()
-    cursor.execute('SELECT * FROM contacts, register')
-    data = cursor.fetchall()
-    print(data) #devuelve los datos
+    cursor.execute('SELECT * FROM contacts')
+    data = cursor.fetchall() #devuelve los datos
     
     #redirige y la parte de contacts = data devuelve la info de la base de datos
     #como devuelve una tupla en el index hay que llamar valor por valor

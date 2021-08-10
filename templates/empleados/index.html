@@ -6,20 +6,13 @@
     <div class="col-md-5">
         <div class="carc card-body">
 
-
-                    <!-- el choclo de llaves son comandos de jinja -->
+                        <!-- el choclo de llaves son comandos de jinja -->
             <!-- es necesaria la secret key en el app  -->
             <!-- es para que envie el mensaje flash, se almacena dentro de la variable mensajes -->
-<<<<<<< HEAD
             {% with mesages = get_flashed_messages(with_categories=true) %}
             <!-- si existen mensajes -->
             {% if mesages %}
-=======
-             {% with mesages = get_flashed_messages(with_categories=true) %}
-            <!-- si existen mensajes -->
-            {% if mesages %}
             <!-- hace falta aclarar la categoria -->
->>>>>>> develop
             {% for category,  mesage in mesages %}
             
             {% if category  == 'error' %}
@@ -33,12 +26,6 @@
                     
             </div>
             {% endif %}
-<<<<<<< HEAD
-            
-            
-            
-=======
->>>>>>> develop
             {% endfor %}
             {% endif %}
             {% endwith %}
