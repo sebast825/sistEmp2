@@ -1,0 +1,19 @@
+{
+  "name": "sist-emp2",
+  "version": "1.0.0",
+  "description": "La base de datos esta subida en clever-cloud. Copiando la rama master anda joya.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebast825/sistEmp2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sebast825/sistEmp2/issues"
+  },
+  "homepage": "https://github.com/sebast825/sistEmp2#readme"
+}
